@@ -17,14 +17,7 @@ func New() *Board {
 	for rowN := Width - 1; rowN > Width-4; rowN-- {
 		board.initRow(rowN, pieces.ColorLight)
 	}
-	// verify
-	for rowN, row := range board {
-		for colN, p := range row {
-			if rowN % 2 == colN % 2 && p != nil {
-				panic("wrong piece placement")
-			}
-		}
-	}
+	board.verifyPiecePositions()
 	return board
 }
 
@@ -38,6 +31,16 @@ func (board *Board) initRow(rowN int, color pieces.Color) {
 	for ; colN < Width; colN += 2 {
 		p := pieces.New(color)
 		board[rowN][colN] = p
+	}
+}
+
+func (board *Board) verifyPiecePositions() {
+	for rowN, row := range board {
+		for colN, p := range row {
+			if rowN % 2 == colN % 2 && p != nil {
+				panic("wrong piece placement")
+			}
+		}
 	}
 }
 
