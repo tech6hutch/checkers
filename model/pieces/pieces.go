@@ -3,14 +3,14 @@ package pieces
 type Color int
 
 const (
-	ColorBlack Color = iota
-	ColorRed
+	ColorDark Color = iota
+	ColorLight
 )
 
 type Kind int
 
 const (
-	Pawn Kind = iota
+	Man Kind = iota
 	King
 )
 
@@ -19,10 +19,6 @@ type Piece struct {
 	Kind  Kind
 }
 
-func NewBlack() *Piece {
-	return &Piece{Color: ColorRed}
-}
-
-func NewRed() *Piece {
-	return &Piece{Color: ColorBlack}
+func New(color Color) *Piece {
+	return &Piece{Color: color}
 }
