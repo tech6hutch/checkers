@@ -7,13 +7,23 @@ import (
 
 func main() {
 	fmt.Println("Checkers!")
+	board := NewBoard()
+
+	fmt.Println(board)
+}
+
+const boardWidth = 8
+
+type Board [boardWidth][boardWidth]*Piece
+
+func NewBoard() Board {
 	board := new(Board)
 	for row := 0; row < 3; row++ {
 		var col int
 		if row%2 == 0 {
-			col = 0
-		} else {
 			col = 1
+		} else {
+			col = 0
 		}
 		for ; col < boardWidth; col += 2 {
 			p := new(Piece)
@@ -24,9 +34,9 @@ func main() {
 	for row := boardWidth - 1; row > boardWidth-4; row-- {
 		var col int
 		if row%2 == 0 {
-			col = 0
-		} else {
 			col = 1
+		} else {
+			col = 0
 		}
 		for ; col < boardWidth; col += 2 {
 			p := new(Piece)
@@ -34,32 +44,23 @@ func main() {
 			board[row][col] = p
 		}
 	}
-
-	
+	return *board
 }
 
-const boardWidth = 8
-
-type Board [boardWidth][boardWidth]*Piece
-
-func String(board Board) string {
-	lines := new([boardWidth][boardWidth + 1]rune)
+func (board *Board) String() string {
+	var b strings.Builder
 	for row := range board {
 		for col := range board[row] {
 			p := board[row][col]
 			if p == nil {
-				lines[row][col] = '#'
+				b.WriteRune('#')
 			} else {
-				lines[row][col] = '*'
+				b.WriteRune('*')
 			}
 		}
-		lines[row][boardWidth] = '\n'
+		b.WriteRune('\n')
 	}
-	s := new(string)
-	for line := range lines {
-		*s += string(line)
-	}
-	return *s
+	return b.String()
 }
 
 type Color int
