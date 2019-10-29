@@ -2,9 +2,7 @@ package board
 
 import (
 	"github.com/tech6hutch/checkers/model/pieces"
-	"strconv"
 	"strings"
-	"unicode/utf8"
 )
 
 const Width = 8
@@ -14,10 +12,10 @@ type Board [Width][Width]*pieces.Piece
 func New() *Board {
 	board := new(Board)
 	for rowN := 0; rowN < 3; rowN++ {
-		board.initRow(rowN, pieces.ColorDark)
+		board.initRow(rowN, pieces.ColorLight)
 	}
 	for rowN := Width - 1; rowN > Width-4; rowN-- {
-		board.initRow(rowN, pieces.ColorLight)
+		board.initRow(rowN, pieces.ColorDark)
 	}
 	board.verifyPiecePositions()
 	return board
@@ -49,33 +47,19 @@ func (board *Board) verifyPiecePositions() {
 func (board *Board) String() string {
 	var b strings.Builder
 
-	for colN := 0; colN < Width; colN++ {
-		n := string(colN)
-		b.WriteString(n)
+	b.WriteRune(' ')
+	for colN := range board[0] {
+		colLetter := rune(colN%26 + 'a')
+		b.WriteRune(colLetter)
 	}
+	columnLetters := b.String()
 	b.WriteRune('\n')
 
-	for rowN, row := range board {
-		// todo: instead, add to number first, to get letter
-		rowLetter, _ := utf8.DecodeRuneInString(strconv.Itoa(rowN))
-		// b.WriteRune(rowLetter)
-		b.WriteString(rowLetter)
-		for colN := range row {
-			numStr := strconv.Itoa(colN)
-			numRune, _ := utf8.DecodeRuneInString(numStr)
-			b.WriteRune(numRune)
-		}
-	}
-	for rowN, rowLetter := 0, 65; rowN < Width; rowN, rowLetter = rowN+1, rowLetter+1 {
-		row := board[rowN]
-		for colN, p := range row {
+	for rowN := Width-1; rowN >= 0; rowN-- {
+		rowDigit := rune((rowN+1)%10 + '0')
+		b.WriteRune(rowDigit)
 
-		}
-	}
-	for rowN, row := range board {
-		rowLetter := rune(rowN + 65)
-		b.WriteRune(rowLetter)
-		for _, p := range row {
+		for _, p := range board[rowN] {
 			switch {
 			case p == nil:
 				b.WriteRune('#')
@@ -87,7 +71,12 @@ func (board *Board) String() string {
 				panic("unknown piece kind")
 			}
 		}
+
+		b.WriteRune(rowDigit)
 		b.WriteRune('\n')
 	}
+
+	b.WriteString(columnLetters)
+
 	return b.String()
 }
