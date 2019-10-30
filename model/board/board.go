@@ -34,9 +34,10 @@ func (board *Board) initRow(rowN int, color pieces.Color) {
 	}
 }
 
-func (board *Board) verifyPiecePositions() {
+func (board Board) verifyPiecePositions() {
 	for rowN, row := range board {
 		for colN, p := range row {
+			// check if there's a piece on the invalid squares
 			if rowN%2 == colN%2 && p != nil {
 				panic("wrong piece placement")
 			}
