@@ -9,9 +9,12 @@ const (
 
 func (color Color) String() string {
 	switch color {
-	case ColorDark: return "dark"
-	case ColorLight: return "light"
-	default: panic("unknown variant")
+	case ColorDark:
+		return "dark"
+	case ColorLight:
+		return "light"
+	default:
+		panic("unknown variant")
 	}
 }
 
@@ -23,10 +26,18 @@ const (
 )
 
 type Piece struct {
-	Color Color
-	Kind  Kind
+	color Color
+	kind  Kind
 }
 
 func New(color Color) *Piece {
-	return &Piece{Color: color}
+	return &Piece{color: color}
+}
+
+func (p Piece) Color() Color {
+	return p.color
+}
+
+func (p Piece) Kind() Kind {
+	return p.kind
 }

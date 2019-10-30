@@ -34,7 +34,7 @@ func (board *Board) initRow(rowN int, color pieces.Color) {
 	}
 }
 
-func (board Board) verifyPiecePositions() {
+func (board *Board) verifyPiecePositions() {
 	for rowN, row := range board {
 		for colN, p := range row {
 			// check if there's a piece on the invalid squares
@@ -45,7 +45,7 @@ func (board Board) verifyPiecePositions() {
 	}
 }
 
-func (board Board) String() string {
+func (board *Board) String() string {
 	var b strings.Builder
 
 	b.WriteRune(' ')
@@ -64,9 +64,9 @@ func (board Board) String() string {
 			switch {
 			case p == nil:
 				b.WriteRune('#')
-			case p.Kind == pieces.Man:
+			case p.Kind() == pieces.Man:
 				b.WriteRune('*')
-			case p.Kind == pieces.King:
+			case p.Kind() == pieces.King:
 				b.WriteRune('^')
 			default:
 				panic("unknown piece kind")
