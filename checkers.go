@@ -13,10 +13,10 @@ func main() {
 	fmt.Println("Checkers!")
 	board := board.New()
 	playerColors := &map[int]pieces.Color{
-		1: pieces.ColorDark,
-		2: pieces.ColorLight,
+		1: pieces.ColorLight,
+		2: pieces.ColorDark,
 	}
-	playerTurn := 1
+	playerTurn := 2
 
 	for {
 		switch playerTurn {

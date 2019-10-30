@@ -44,7 +44,7 @@ func (board *Board) verifyPiecePositions() {
 	}
 }
 
-func (board *Board) String() string {
+func (board Board) String() string {
 	var b strings.Builder
 
 	b.WriteRune(' ')
